@@ -2,24 +2,34 @@ import React, {useState} from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableWithoutFeedback, Animated} from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 
-const Formulario = () => {
+const Formulario = ({busqueda,setBusqueda,setError,setMessage}) => {
     //#region DEFINICIONDE STATES
-    const [animacionBoton] = useState(new Animated.Value(1));
+    const [animationButton] = useState(new Animated.Value(1));
+    const {city,country} = busqueda;
+    console.log(city);
     //#endregion
 
 
     //#region FUNCIONES PARA COMPONENTES FORMULARIO
-    
+        //  Validar datos
+        const consultarClima = () =>{
+            if (city.trim() === '' || country === ''){
+                setMessage('Ambos campos son obligatorios');
+                setError(true);
+                return;
+            }
+            setError(false);
+        }
     //#endregion
     //#region FUNCIONES PARA ANIMACIONES
     const animacionEntrada = () => {
-        Animated.spring(animacionBoton, {
+        Animated.spring(animationButton, {
             toValue: .95,
             useNativeDriver:true
         }).start();
     }
     const animacionSalida = () =>{
-        Animated.spring(animacionBoton,{
+        Animated.spring(animationButton,{
             toValue:1,
             friction:5,
             tension:30,
@@ -28,7 +38,7 @@ const Formulario = () => {
     }
 
     const styleAnimation = {
-        transform:[{scale:animacionBoton}]
+        transform:[{scale:animationButton}]
     };
     //#endregion
     return (
@@ -37,14 +47,18 @@ const Formulario = () => {
                 <View>
                     <Text style={styles.label}>Ciudad:</Text>
                     <TextInput
+                        value={city}
                         style={styles.input}
                         placeholder="Ej: Santiago"
-                        placeholderTextColor="#bfd6f6" 
+                        placeholderTextColor="#bfd6f6"
+                        onChangeText={city => setBusqueda({...busqueda,city})}
                     ></TextInput>
                 </View>
                 <View>
                     <Text style={styles.label}>Pais:</Text>
                     <Picker
+                        selectedValue={country}
+                        onValueChange={country =>setBusqueda({...busqueda,country})}
                         style={{color:'#fff', backgroundColor:'#64a1f4'}}
                         itemStyle={{backgroundColor:'#64a1f4', color:'#fff'}}
                     >
@@ -59,6 +73,7 @@ const Formulario = () => {
                     </Picker>
                 </View>
                 <TouchableWithoutFeedback
+                    onPress={() => consultarClima()}
                     onPressIn={()=>animacionEntrada()}
                     onPressOut={()=>animacionSalida()}
                 >
