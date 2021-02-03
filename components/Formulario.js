@@ -1,8 +1,36 @@
-import React from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableWithoutFeedback, Touchable } from 'react-native';
+import React, {useState} from 'react';
+import { View, Text, TextInput, StyleSheet, TouchableWithoutFeedback, Animated} from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 
 const Formulario = () => {
+    //#region DEFINICIONDE STATES
+    const [animacionBoton] = useState(new Animated.Value(1));
+    //#endregion
+
+
+    //#region FUNCIONES PARA COMPONENTES FORMULARIO
+    
+    //#endregion
+    //#region FUNCIONES PARA ANIMACIONES
+    const animacionEntrada = () => {
+        Animated.spring(animacionBoton, {
+            toValue: .95,
+            useNativeDriver:true
+        }).start();
+    }
+    const animacionSalida = () =>{
+        Animated.spring(animacionBoton,{
+            toValue:1,
+            friction:5,
+            tension:30,
+            useNativeDriver:true
+        }).start();
+    }
+
+    const styleAnimation = {
+        transform:[{scale:animacionBoton}]
+    };
+    //#endregion
     return (
         <>
             <View style={styles.formulario}>
@@ -30,10 +58,15 @@ const Formulario = () => {
                         <Picker.Item label='España' value='ES' />
                     </Picker>
                 </View>
-                <TouchableWithoutFeedback>
-                    <View style={styles.button}>
+                <TouchableWithoutFeedback
+                    onPressIn={()=>animacionEntrada()}
+                    onPressOut={()=>animacionSalida()}
+                >
+                    <Animated.View 
+                        style={[styles.button, styleAnimation]}
+                    >
                         <Text style={styles.textButton}>Consultar</Text>
-                    </View>
+                    </Animated.View>
                 </TouchableWithoutFeedback>
             </View>
         </>
