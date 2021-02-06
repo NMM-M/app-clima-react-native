@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableWithoutFeedback, Animated} from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 
-const Formulario = ({busqueda,setBusqueda,setError,setMessage}) => {
+const Formulario = ({busqueda,setBusqueda,setError,setMessage, setConsultar}) => {
     //#region DEFINICIONDE STATES
     const [animationButton] = useState(new Animated.Value(1));
     const {city,country} = busqueda;
@@ -19,6 +19,8 @@ const Formulario = ({busqueda,setBusqueda,setError,setMessage}) => {
                 return;
             }
             setError(false);
+            //consultar api
+            setConsultar(true);
         }
     //#endregion
     //#region FUNCIONES PARA ANIMACIONES

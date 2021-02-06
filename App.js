@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, Keyboard } from 'react-native';
 import Formulario from './components/Formulario';
 
@@ -10,8 +10,19 @@ const App = () => {
   });
   const [error,setError] = useState(false);
   const [message, setMessage] = useState('Hubo un error.');
-  //#endregion
+  const [consultar, setConsultar] = useState(false);
+  const {city,country} = busqueda;
 
+  //#endregion
+  //#region USEEFFECT
+    useEffect(() => {
+      if (consultar){
+        const appID = '5ad520fc7eaad50eb347a14d904a3a76'
+        const url = `api.openweathermap.org/data/2.5/weather?q=${city},${country}&appid=${appID}`
+        console.log(url);
+      }
+    },[consultar]);
+  //#endregion
 
   //#region FUNCIONES
     const cerrarTeclado = () =>{
@@ -41,6 +52,7 @@ const App = () => {
             setBusqueda={setBusqueda}
             setError={setError}
             setMessage={setMessage}
+            setConsultar={setConsultar}
           />
         </View>
       </View>
