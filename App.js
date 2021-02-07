@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, Keyboard } from 'react-native';
 import Formulario from './components/Formulario';
+import Clima  from './components/Clima';
+
 
 const App = () => {
   //#region DEFINICION DE STATES
@@ -21,6 +23,7 @@ const App = () => {
         if (consultar){
           const appID = '5ad520fc7eaad50eb347a14d904a3a76'
           const url = `http://api.openweathermap.org/data/2.5/weather?q=${city},${country}&appid=${appID}`
+          console.log(url);
           try {
             const respuesta = await fetch(url);
             const resultado = await respuesta.json();
@@ -59,6 +62,9 @@ const App = () => {
         <View style={styles.contenido}>
           <Text style={styles.title}>Pronostico</Text>
           {error ?<Alert/> : null}
+          <Clima
+            resultado={resultado}
+          />
           <Formulario 
             busqueda = {busqueda}
             setBusqueda={setBusqueda}

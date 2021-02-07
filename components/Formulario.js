@@ -6,7 +6,6 @@ const Formulario = ({busqueda,setBusqueda,setError,setMessage, setConsultar}) =>
     //#region DEFINICIONDE STATES
     const [animationButton] = useState(new Animated.Value(1));
     const {city,country} = busqueda;
-    console.log(city);
     //#endregion
 
 
