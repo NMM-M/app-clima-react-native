@@ -15,6 +15,7 @@ const App = () => {
   const [consultar, setConsultar] = useState(false);
   const [resultado, setResultado] = useState({});
   const {city,country} = busqueda;
+  const [bgcolor, setBgcolor] = useState('#3b7dd8');
 
   //#endregion
   //#region USEEFFECT
@@ -29,6 +30,17 @@ const App = () => {
             const resultado = await respuesta.json();
             setResultado(resultado);
             setConsultar(false);
+            const {main} = resultado;
+            const kelvin = 273.15;
+            const actual = main.temp - kelvin;
+            if (actual < 10 ) {
+              setBgcolor('rgb(105,108,149)');
+            }else if(actual >= 10 && actual < 25){
+              setBgcolor('#3b7dd8');
+            }else{
+              setBgcolor('rgb(178,28,61)');
+            }
+
           } catch (error) {
             setError(true);
             setMessage('No tenemos datos para esta locación')
@@ -55,10 +67,14 @@ const App = () => {
       );
     }
   //#endregion
-
+  //#region OBJETOS
+    const bgColorAPP = {
+      backgroundColor:bgcolor
+    }
+  //#endregion 
   return (
     <>
-      <View style={styles.app} onPress={() =>cerrarTeclado()}>
+      <View style={[styles.app, bgColorAPP]} onPress={() =>cerrarTeclado()}>
         <View style={styles.contenido}>
           <Text style={styles.title}>Pronostico</Text>
           {error ?<Alert/> : null}
